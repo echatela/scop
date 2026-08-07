@@ -1,0 +1,11 @@
+# --- Build ---
+/obj/
+*.o
+*.d
+
+# --- Binary ---
+/scop
+
+# --- Tools ---
+/compile_commands.json
+/.cache/
