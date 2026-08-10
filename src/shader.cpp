@@ -20,8 +20,8 @@ static std::string getShaderCode(const char* path)
 static unsigned int compileShader(const char* shaderCode, int type)
 {
 	unsigned int shader;
-	int success;
-	char infoLog[512];
+	int          success;
+	char         infoLog[512];
 
 	shader = glCreateShader(type);
 	glShaderSource(shader, 1, &shaderCode, nullptr);
@@ -33,7 +33,6 @@ static unsigned int compileShader(const char* shaderCode, int type)
 		throw std::runtime_error("Shader: Compilation failed" +
 		                         std::string(infoLog));
 	}
-
 	return shader;
 }
 
@@ -51,7 +50,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	glAttachShader(_id, fragment);
 	glLinkProgram(_id);
 
-	int success;
+	int  success;
 	char infoLog[512];
 	glGetProgramiv(_id, GL_LINK_STATUS, &success);
 	if (!success)
@@ -69,6 +68,8 @@ Shader::~Shader()
 {
 	glDeleteProgram(_id);
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 void Shader::use()
 {

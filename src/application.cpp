@@ -4,14 +4,16 @@
 
 void Application::run()
 {
-	_window.setSizeCallback();
-
+	double last = glfwGetTime();
 	while (_window.shouldClose() != true)
 	{
 		processInput();
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		double now = glfwGetTime();
+		double dt = now - last;
+		last = now;
+		_engine.update(dt);
+		_engine.render();
 
 		_window.swapBuffers();
 		_window.pollEvents();

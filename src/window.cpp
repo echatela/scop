@@ -7,7 +7,7 @@
 
 static void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
-	(void)window;
+	glfwGetFramebufferSize(window, &width, &height);
 	glViewport(0, 0, width, height);
 }
 
@@ -16,13 +16,17 @@ Window::Window()
 	_window = glfwCreateWindow(800, 600, "Scop", NULL, NULL);
 	if (_window == nullptr)
 		throw std::runtime_error("Failed to create GLFW window");
+
 	glfwMakeContextCurrent(_window);
+	setFramebufferSizeCallback();
 }
 
 Window::~Window()
 {
 	glfwDestroyWindow(_window);
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 bool Window::shouldClose() const
 {
@@ -49,7 +53,7 @@ bool Window::isKeyPressed(int key)
 	return glfwGetKey(_window, key) == GLFW_PRESS;
 }
 
-void Window::setSizeCallback()
+void Window::setFramebufferSizeCallback()
 {
 	glfwSetFramebufferSizeCallback(_window, framebufferSizeCallback);
 }

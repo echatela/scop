@@ -17,5 +17,5 @@ public:
 
 	bool isKeyPressed(int key);
 
-	void setSizeCallback();
+	void setFramebufferSizeCallback();
 };
