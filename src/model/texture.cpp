@@ -1,5 +1,5 @@
 #include "texture.hpp"
-#include "scop_utils/image_loader.hpp"
+#include "utils/image_loader.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <vector>

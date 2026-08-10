@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "scop_utils/scm.hpp"
+#include "utils/scm.hpp"
 
 struct Vertex
 {

@@ -1,9 +1,9 @@
 #include "image_loader.hpp"
 #include <cctype>
 #include <cstddef>
+#include <cstdio>
 #include <fstream>
 #include <ios>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -13,6 +13,8 @@ static void skip(std::ifstream& file)
 	while (true)
 	{
 		int c = file.peek();
+		if (c == EOF)
+			throw std::runtime_error("PPM header formatted incorrectly");
 
 		if (c == '#')
 		{
@@ -21,13 +23,17 @@ static void skip(std::ifstream& file)
 			{
 				file.get();
 				d = file.peek();
-			} while (d != '\n' && d != '\0');
+			} while (d != '\n' && d != EOF);
+			continue;
 		}
 
-		if (c == '\0' || !std::isspace(c))
-			break;
+		if (std::isspace(c))
+		{
+			file.get();
+			continue;
+		}
 
-		file.get();
+		break;
 	}
 }
 
@@ -37,9 +43,7 @@ Image image_loader::loadImage(const std::string& path)
 	if (!file.is_open())
 		throw std::runtime_error("Failed to open image file");
 
-	std::ostringstream oss;
-	oss << file.get() << file.get();
-	if (oss.str() != "P6")
+	if (file.get() != 'P' || file.get() != '6')
 		throw std::runtime_error("Image format not supported");
 
 	skip(file);
