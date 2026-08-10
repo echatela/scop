@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 #include "utils/scm.hpp"
 
@@ -20,8 +21,10 @@ class Mesh
 	std::vector<unsigned int> _indices;
 
 public:
-	Mesh(const std::vector<Vertex>&       vertices,
-	     const std::vector<unsigned int>& indices);
+	Mesh(const std::string& objPath);
+	~Mesh();
+
+	void draw();
 
 private:
 	void setupMesh();

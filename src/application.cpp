@@ -2,6 +2,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+Application::Application()
+    : _engine("", "assets/container.ppm")
+{
+}
+
 void Application::run()
 {
 	double last = glfwGetTime();

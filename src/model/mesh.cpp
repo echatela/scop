@@ -3,14 +3,37 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <string>
 #include <vector>
 
-Mesh::Mesh(const std::vector<Vertex>&       vertices,
-           const std::vector<unsigned int>& indices)
-    : _vertices(vertices),
-      _indices(indices)
+Mesh::Mesh(const std::string& objPath)
 {
+	(void)objPath;
+
+	Vertex v = { {0.5f, 0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}};
+	_vertices.push_back(v);
+	v = { {0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}};
+	_vertices.push_back(v);
+	v = { {-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}};
+	_vertices.push_back(v);
+	v = { {-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}};
+	_vertices.push_back(v);
+
+	_indices.push_back(0);
+	_indices.push_back(1);
+	_indices.push_back(3);
+	_indices.push_back(1);
+	_indices.push_back(2);
+	_indices.push_back(3);
+
 	setupMesh();
+}
+
+Mesh::~Mesh()
+{
+	glDeleteVertexArrays(1, &_vao);
+	glDeleteBuffers(1, &_vbo);
+	glDeleteBuffers(1, &_ebo);
 }
 
 void Mesh::setupMesh()
@@ -43,4 +66,10 @@ void Mesh::setupMesh()
 	                      (void*)offsetof(Vertex, texCoords));
 
 	glBindVertexArray(0);
+}
+
+void Mesh::draw()
+{
+	glBindVertexArray(_vao);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

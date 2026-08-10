@@ -13,6 +13,8 @@ class Application
 	Engine      _engine;
 
 public:
+	Application();
+
 	void run();
 
 private:
