@@ -37,6 +37,21 @@ static void skip(std::ifstream& file)
 	}
 }
 
+static void reverse(Image& image)
+{
+	std::vector<unsigned char> reversePixels;
+
+	for (int i = image.height - 1; i >= 0; i--)
+	{
+		std::vector<unsigned char>::const_iterator it =
+		    image.pixels.begin() + i * image.width * 3;
+		reversePixels.insert(reversePixels.end(), it,
+		                     it + image.width * 3);
+	}
+	image.pixels = reversePixels;
+}
+
+// load a ppm image into Image struct in reverse way
 Image image_loader::loadImage(const std::string& path)
 {
 	std::ifstream file(path, std::ios::binary);
@@ -67,6 +82,8 @@ Image image_loader::loadImage(const std::string& path)
 	          image.pixels.size());
 	if (file.gcount() != static_cast<std::streamsize>(image.pixels.size()))
 		throw std::runtime_error("Truncated PPM data");
+
+	reverse(image);
 
 	return image;
 }
