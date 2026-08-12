@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 
 Application::Application()
-    : _engine("", "assets/container.ppm")
+    : _engine("", "assets/awesomeface.ppm")
 {
 }
 

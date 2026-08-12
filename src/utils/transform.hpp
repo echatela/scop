@@ -75,4 +75,14 @@ inline Mat4 rotateZ(const Mat4& m, float angle)
 	return r;
 }
 
+inline float radians(float deg)
+{
+	return M_PI / 180 * deg;
+}
+
+inline float degrees(float rad)
+{
+	return 180 / M_PI * rad;
+}
+
 } // namespace scm

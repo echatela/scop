@@ -1,4 +1,5 @@
 #include "shader.hpp"
+#include "utils/mat4.hpp"
 
 #include <fstream>
 #include <glad/glad.h>
@@ -89,4 +90,10 @@ void Shader::setInt(const std::string& name, int value) const
 void Shader::setFloat(const std::string& name, float value) const
 {
 	glUniform1f(glGetUniformLocation(_id, name.c_str()), value);
+}
+
+void Shader::setMat4(const std::string& name, const scm::Mat4& value) const
+{
+	glUniformMatrix4fv(glGetUniformLocation(_id, name.c_str()), 1, GL_FALSE,
+	                   scm::valuePtr(value));
 }
