@@ -27,19 +27,17 @@ void Engine::render()
 
 	_shader.use();
 
-	scm::Mat4 trans = scm::Mat4::identity();
-	trans = scm::translate(trans, scm::Vec3(0.5f, -0.5f, 0.0f));
-	trans = scm::rotateZ(trans, glfwGetTime());
+	scm::Mat4 model = scm::Mat4::identity();
+	model = scm::rotateX(model, scm::radians(-55.0f));
 
-	_shader.setMat4("transform", trans);
+	scm::Mat4 view = scm::Mat4::identity();
+	view = translate(view, scm::Vec3(0.0f, 0.0f, -3.0f));
 
-	_mesh.draw();
+	scm::Mat4 projection = scm::Mat4::identity();
 
-	trans = scm::Mat4::identity();
-	trans = scm::translate(trans, scm::Vec3(-0.5f, 0.5f, 0.0f));
-	trans = scm::scale(trans, scm::Vec3(std::sin(glfwGetTime())));
-
-	_shader.setMat4("transform", trans);
+	_shader.setMat4("model", model);
+	_shader.setMat4("view", view);
+	_shader.setMat4("projection", projection);
 
 	_mesh.draw();
 }
