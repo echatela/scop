@@ -1,5 +1,6 @@
 #include "engine.hpp"
 #include "utils/mat4.hpp"
+#include "utils/perspective.hpp"
 #include "utils/transform.hpp"
 #include "utils/vec3.hpp"
 
@@ -33,7 +34,9 @@ void Engine::render()
 	scm::Mat4 view = scm::Mat4::identity();
 	view = translate(view, scm::Vec3(0.0f, 0.0f, -3.0f));
 
-	scm::Mat4 projection = scm::Mat4::identity();
+	scm::Mat4 projection;
+	projection =
+	    scm::perspective(scm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 	_shader.setMat4("model", model);
 	_shader.setMat4("view", view);
