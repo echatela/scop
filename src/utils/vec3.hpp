@@ -21,7 +21,7 @@ struct Vec3
 
 	float& operator[](int i)
 	{
-		assert(i >= 0 && i < 2);
+		assert(i >= 0 && i < 3);
 		return (&x)[i];
 	}
 
@@ -135,7 +135,7 @@ inline Vec3 min(const Vec3& a, const Vec3& b)
 inline Vec3 max(const Vec3& a, const Vec3& b)
 {
 	return Vec3(a.x > b.x ? a.x : b.x, a.y > b.y ? a.y : b.y,
-	            a.z < b.z ? a.z : b.z);
+	            a.z > b.z ? a.z : b.z);
 }
 
 inline const float* valuePtr(const Vec3& v)
