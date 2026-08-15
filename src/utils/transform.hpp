@@ -75,6 +75,37 @@ inline Mat4 rotateZ(const Mat4& m, float angle)
 	return r;
 }
 
+inline Mat4 rotate(const Mat4& m, float angle, const Vec3& axis)
+{
+	const float c = std::cos(angle);
+	const float s = std::sin(angle);
+	const Vec3  a = normalize(axis);
+	const Vec3  t = a * (1.0f - c);
+
+	float rot[3][3];
+
+	rot[0][0] = t.x * a.x + c;
+	rot[0][1] = t.x * a.y + s * a.z;
+	rot[0][2] = t.x * a.z - s * a.y;
+
+	rot[1][0] = t.y * a.x - s * a.z;
+	rot[1][1] = t.y * a.y + c;
+	rot[1][2] = t.y * a.z + s * a.x;
+
+	rot[2][0] = t.z * a.x + s * a.y;
+	rot[2][1] = t.z * a.y - s * a.x;
+	rot[2][2] = t.z * a.z + c;
+
+	Mat4 r = m;
+
+	for (int row = 0; row < 4; ++row)
+		for (int col = 0; col < 3; ++col)
+			r.m[col][row] = m.m[0][row] * rot[col][0] +
+			                m.m[1][row] * rot[col][1] +
+			                m.m[2][row] * rot[col][2];
+	return r;
+}
+
 inline float radians(float deg)
 {
 	return M_PI / 180 * deg;

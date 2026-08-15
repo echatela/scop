@@ -21,6 +21,7 @@ class Mesh
 	std::vector<unsigned int> _indices;
 
 public:
+	Mesh();
 	Mesh(const std::string& objPath);
 	~Mesh();
 
@@ -28,4 +29,5 @@ public:
 
 private:
 	void setupMesh();
+	void setupTestMesh();
 };

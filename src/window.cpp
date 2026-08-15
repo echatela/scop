@@ -38,6 +38,11 @@ void Window::setShouldClose()
 	glfwSetWindowShouldClose(_window, true);
 }
 
+void Window::getFramebufferSize(int* width, int* height) const
+{
+	glfwGetFramebufferSize(_window, width, height);
+}
+
 void Window::swapBuffers()
 {
 	glfwSwapBuffers(_window);

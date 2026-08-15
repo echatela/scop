@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 
 Application::Application()
-    : _engine("", "assets/awesomeface.ppm")
+    : _engine("", "assets/container.ppm")
 {
 }
 
@@ -17,7 +17,9 @@ void Application::run()
 		double now = glfwGetTime();
 		double dt = now - last;
 		last = now;
-		_engine.update(dt);
+		int width, height;
+		_window.getFramebufferSize(&width, &height);
+		_engine.update(dt, width, height);
 		_engine.render();
 
 		_window.swapBuffers();
