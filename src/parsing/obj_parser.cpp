@@ -1,4 +1,5 @@
 #include "obj_parser.hpp"
+#include "parsing/obj_data.hpp"
 #include "utils/vec3.hpp"
 #include <fstream>
 #include <sstream>
@@ -11,7 +12,7 @@ class ObjParser
 {
 	ObjData& _data;
 	int      _line;
-	int      _material;
+//	int      _material;
 
 public:
 	ObjParser(ObjData& data);
@@ -23,7 +24,7 @@ public:
 	void parseTexCoord(std::istringstream& ss);
 	void parseNormal(std::istringstream& ss);
 	void parseFace(std::istringstream& ss);
-	void parseMaterial(std::istringstream& ss);
+//	void parseMaterial(std::istringstream& ss);
 
 	ObjCorner parseCorner(std::string& token);
 
@@ -52,20 +53,20 @@ void ObjParser::feed(const std::string& text)
 	std::string        keyword;
 
 	if (!(ss >> keyword))
-		return; // line empty
+		return; // empty line
 
 	if (keyword == "v")
 		parseVertex(ss);
 	else if (keyword == "vt")
 		parseTexCoord(ss);
-	else if (keyword == "vn")
-		parseNormal(ss);
+//	else if (keyword == "vn")
+//		parseNormal(ss);
 	else if (keyword == "f")
 		parseFace(ss);
-	else if (keyword == "usemtl")
-		parseMaterial(ss);
-	else if (keyword == "mtllib")
-		ss >> _data.materialLibrary;
+//	else if (keyword == "usemtl")
+//		parseMaterial(ss);
+//	else if (keyword == "mtllib")
+//		ss >> _data.materialLibrary;
 	else if (keyword == "o")
 		ss >> _data.name;
 }
@@ -110,9 +111,17 @@ void ObjParser::parseFace(std::istringstream& ss)
 	while (ss >> token)
 		face.corners.push_back(parseCorner(token));
 
-	face.material = _material;
+//	face.material = _material;
 	_data.faces.push_back(face);
 }
+
+ObjCorner ObjParser::parseCorner(std::string& token)
+{
+	ObjCorner corner;
+
+
+}
+
 } // namespace
 
 ObjData obj::parse(std::istream& in)
