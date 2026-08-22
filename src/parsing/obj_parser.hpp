@@ -1,6 +1,6 @@
 #pragma once
 
-#include "obj_data.hpp"
+#include "parsing/obj_data.hpp"
 
 #include <istream>
 #include <string>

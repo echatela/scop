@@ -2,47 +2,29 @@
 #include "parsing/obj_data.hpp"
 #include "utils/vec3.hpp"
 #include <fstream>
+#include <istream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 namespace
 {
 class ObjParser
 {
-	ObjData& _data;
-	int      _line;
-//	int      _material;
+	ObjData _data;
+	int     _line;
 
 public:
-	ObjParser(ObjData& data);
-
 	void feed(const std::string& text);
 
-	void parse(std::istringstream& ss);
 	void parseVertex(std::istringstream& ss);
-	void parseTexCoord(std::istringstream& ss);
-	void parseNormal(std::istringstream& ss);
 	void parseFace(std::istringstream& ss);
-//	void parseMaterial(std::istringstream& ss);
 
-	ObjCorner parseCorner(std::string& token);
+	ObjData data() const;
 
 	void error(const std::string& message);
 };
-
-ObjParser::ObjParser(ObjData& data)
-    : _data(data)
-{
-}
-
-void ObjParser::error(const std::string& message)
-{
-	std::ostringstream ss;
-
-	ss << "obj: line " << _line << ": " << message;
-	throw std::runtime_error(ss.str());
-}
 
 void ObjParser::feed(const std::string& text)
 {
@@ -57,18 +39,8 @@ void ObjParser::feed(const std::string& text)
 
 	if (keyword == "v")
 		parseVertex(ss);
-	else if (keyword == "vt")
-		parseTexCoord(ss);
-//	else if (keyword == "vn")
-//		parseNormal(ss);
 	else if (keyword == "f")
 		parseFace(ss);
-//	else if (keyword == "usemtl")
-//		parseMaterial(ss);
-//	else if (keyword == "mtllib")
-//		ss >> _data.materialLibrary;
-	else if (keyword == "o")
-		ss >> _data.name;
 }
 
 void ObjParser::parseVertex(std::istringstream& ss)
@@ -76,64 +48,51 @@ void ObjParser::parseVertex(std::istringstream& ss)
 	scm::Vec3 v;
 
 	if (!(ss >> v.x >> v.y >> v.z))
-		error("v: three coords are expected");
+		error("v: three values are expected");
 
 	_data.positions.push_back(v);
 }
 
-void ObjParser::parseTexCoord(std::istringstream& ss)
-{
-	scm::Vec2 vt;
-
-	if (!(ss >> vt.x))
-		error("vt: at least one coord is expected");
-	if (!(ss >> vt.y))
-		vt.y = 0.0f;
-
-	_data.texCoords.push_back(vt);
-}
-
-void ObjParser::parseNormal(std::istringstream& ss)
-{
-	scm::Vec3 vn;
-
-	if (!(ss >> vn.x >> vn.y >> vn.z))
-		error("vn: three coords are expected");
-
-	_data.normals.push_back(vn);
-}
-
 void ObjParser::parseFace(std::istringstream& ss)
 {
-	ObjFace     face;
-	std::string token;
+	std::vector<int> f;
+	int a, b, c, d;
 
-	while (ss >> token)
-		face.corners.push_back(parseCorner(token));
+	if (!(ss >> a >> b >> c))
+		error("f: three or four indices are expected");
+	f.push_back(a);
+	f.push_back(b);
+	f.push_back(c);
+	if (ss >> d)
+		f.push_back(d);
 
-//	face.material = _material;
-	_data.faces.push_back(face);
+	_data.faces.push_back(f);
 }
 
-ObjCorner ObjParser::parseCorner(std::string& token)
+ObjData ObjParser::data() const
 {
-	ObjCorner corner;
+	return _data;
+}
 
+void ObjParser::error(const std::string& message)
+{
+	std::ostringstream ss;
 
+	ss << "obj: line " << _line << ": " << message;
+	throw std::runtime_error(ss.str());
 }
 
 } // namespace
 
 ObjData obj::parse(std::istream& in)
 {
-	ObjData     data;
-	ObjParser   parser(data);
+	ObjParser   parser;
 	std::string line;
 
 	while (std::getline(in, line))
 		parser.feed(line);
 
-	return data;
+	return parser.data();
 }
 
 ObjData obj::parseFile(const std::string& path)
@@ -141,5 +100,6 @@ ObjData obj::parseFile(const std::string& path)
 	std::ifstream file(path);
 	if (!file.is_open())
 		throw std::runtime_error("Failed to open obj file");
-	return obj::parse(file);
+
+	return parse(file);
 }
