@@ -1,4 +1,6 @@
 #include "engine.hpp"
+#include "parsing/obj_data.hpp"
+#include "parsing/obj_parser.hpp"
 #include "utils/mat4.hpp"
 #include "utils/perspective.hpp"
 #include "utils/transform.hpp"
@@ -11,7 +13,7 @@ Engine::Engine(const std::string& objPath, const std::string& texPath)
       _texture(texPath),
       _mesh()
 {
-	(void)objPath;
+	ObjData data = obj::parseFile(objPath);
 	glEnable(GL_DEPTH_TEST);
 	_state.view = translate(_state.view, scm::Vec3(0.0f, 0.0f, -3.0f));
 }
