@@ -1,28 +1,22 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include "utils/scm.hpp"
+#include "model/mesh_data.hpp"
+#include "model/vertex.hpp"
 
-struct Vertex
-{
-	scm::Vec3 position;
-	scm::Vec3 color;
-	scm::Vec2 texCoords;
-};
+#include <vector>
 
 class Mesh
 {
 	unsigned int _vao;
 	unsigned int _vbo;
-	unsigned int _ebo;
 
-	std::vector<Vertex>       _vertices;
-	std::vector<unsigned int> _indices;
+	std::vector<Vertex> _vertices;
+
+	unsigned int _faces;
 
 public:
 	Mesh();
-	Mesh(const std::string& objPath);
+	Mesh(const MeshData& data);
 	~Mesh();
 
 	void draw();

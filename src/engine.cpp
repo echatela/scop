@@ -1,5 +1,5 @@
 #include "engine.hpp"
-#include "parsing/obj_data.hpp"
+#include "parsing/mesh_resolver.hpp"
 #include "parsing/obj_parser.hpp"
 #include "utils/mat4.hpp"
 #include "utils/perspective.hpp"
@@ -11,18 +11,18 @@
 Engine::Engine(const std::string& objPath, const std::string& texPath)
     : _shader("shaders/vert.glsl", "shaders/frag.glsl"),
       _texture(texPath),
-      _mesh()
+      _mesh(mesh::resolve(obj::parseFile(objPath)))
 {
-	ObjData data = obj::parseFile(objPath);
 	glEnable(GL_DEPTH_TEST);
 	_state.view = translate(_state.view, scm::Vec3(0.0f, 0.0f, -3.0f));
 }
 
 void Engine::update(double dt, int width, int height)
 {
-	_state.rotation += (float)dt * scm::radians(50.0f);
-	_state.model = scm::rotate(scm::Mat4::identity(), _state.rotation,
-	                           scm::Vec3(0.5f, 1.0f, 0.0f));
+	(void)dt;
+//	_state.rotation += (float)dt * scm::radians(50.0f);
+//	_state.model = scm::rotate(scm::Mat4::identity(), _state.rotation,
+//	                           scm::Vec3(0.5f, 1.0f, 0.0f));
 	if (width != _state.width || height != _state.height)
 	{
 		_state.width = width;
