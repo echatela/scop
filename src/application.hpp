@@ -4,6 +4,7 @@
 #include "window.hpp"
 #include "context/glad_context.hpp"
 #include "engine.hpp"
+#include <string>
 
 class Application
 {
@@ -13,7 +14,7 @@ class Application
 	Engine      _engine;
 
 public:
-	Application();
+	Application(const std::string& objPath);
 
 	void run();
 

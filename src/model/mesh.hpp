@@ -7,15 +7,12 @@
 
 class Mesh
 {
-	unsigned int _vao;
-	unsigned int _vbo;
+	unsigned int _vao = 0;
+	unsigned int _vbo = 0;
 
 	std::vector<Vertex> _vertices;
 
-	unsigned int _faces;
-
 public:
-	Mesh();
 	Mesh(const MeshData& data);
 	~Mesh();
 
@@ -23,5 +20,4 @@ public:
 
 private:
 	void setupMesh();
-	void setupTestMesh();
 };

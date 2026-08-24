@@ -25,12 +25,12 @@ struct State
 class Engine
 {
 	Shader  _shader;
-	Texture _texture;
+//	Texture _texture;
 	Mesh    _mesh;
 	State   _state;
 
 public:
-	Engine(const std::string& objPath, const std::string& texPath);
+	Engine(const std::string& objPath);
 
 	void update(double dt, int width, int height);
 	void render();

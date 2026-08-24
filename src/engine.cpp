@@ -8,9 +8,8 @@
 
 #include <glad/glad.h>
 
-Engine::Engine(const std::string& objPath, const std::string& texPath)
+Engine::Engine(const std::string& objPath)
     : _shader("shaders/vert.glsl", "shaders/frag.glsl"),
-      _texture(texPath),
       _mesh(mesh::resolve(obj::parseFile(objPath)))
 {
 	glEnable(GL_DEPTH_TEST);
@@ -20,9 +19,9 @@ Engine::Engine(const std::string& objPath, const std::string& texPath)
 void Engine::update(double dt, int width, int height)
 {
 	(void)dt;
-//	_state.rotation += (float)dt * scm::radians(50.0f);
-//	_state.model = scm::rotate(scm::Mat4::identity(), _state.rotation,
-//	                           scm::Vec3(0.5f, 1.0f, 0.0f));
+	_state.rotation += (float)dt * scm::radians(50.0f);
+	_state.model = scm::rotate(scm::Mat4::identity(), _state.rotation,
+	                           scm::Vec3(0.5f, 1.0f, 0.0f));
 	if (width != _state.width || height != _state.height)
 	{
 		_state.width = width;
@@ -35,10 +34,10 @@ void Engine::update(double dt, int width, int height)
 
 void Engine::render()
 {
-	glClearColor(0.2f, 0.3f, 0.3, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	_texture.bind();
+//	_texture.bind();
 
 	_shader.use();
 

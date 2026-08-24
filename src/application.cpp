@@ -2,8 +2,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-Application::Application()
-    : _engine("assets/42.obj", "assets/container.ppm")
+Application::Application(const std::string& objPath)
+    : _engine(objPath)
 {
 }
 

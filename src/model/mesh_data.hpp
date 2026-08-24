@@ -6,5 +6,4 @@
 struct MeshData
 {
 	std::vector<Vertex> vertices;
-	unsigned int faces;
 };
