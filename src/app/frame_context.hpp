@@ -14,4 +14,7 @@ struct FrameContext
 	double zoom = 0.0;
 
 	bool resetPosition = false;
+
+	float texMix = 0.0f;
+	bool toggleTexture = false;
 };

@@ -3,20 +3,22 @@
 
 #include "math/mat4.hpp"
 #include "math/transform.hpp"
+#include "math/vec2.hpp"
 
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 
 static float faceGrey(unsigned index)
 {
 	static const float greys[] = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f};
-	uint32_t h = index;
+	uint32_t           h = index;
 
-//	h ^= h >> 16;
-//	h *= 0x85ebca6b;
-//	h ^= h >> 13;
-//	h *= 0xc2b2ae35;
-//	h ^= h >> 16;
+	h ^= h >> 16;
+	h *= 0x85ebca6b;
+	h ^= h >> 13;
+	h *= 0xc2b2ae35;
+	h ^= h >> 16;
 	return greys[h % (sizeof(greys) / sizeof(greys[0]))];
 }
 
@@ -83,6 +85,13 @@ static void normalizeMesh(MeshData& md)
 	}
 }
 
+static void basicTexCoords(MeshData& md)
+{
+	for (size_t i = 0; i < md.vertices.size(); i++)
+		md.vertices[i].texCoords = scm::Vec2(-md.vertices[i].position.z + 0.5f,
+		                                     md.vertices[i].position.y + 0.5f);
+}
+
 namespace mesh
 {
 MeshData build(const ObjData& od)
@@ -92,6 +101,8 @@ MeshData build(const ObjData& od)
 	for (size_t i = 0; i < od.faces.size(); i++)
 		triangulate(md, od.faces[i], od, i);
 	normalizeMesh(md);
+	if (od.texCoords.empty())
+		basicTexCoords(md);
 	return md;
 }
 } // namespace mesh

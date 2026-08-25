@@ -18,6 +18,8 @@ struct State
 	int width = 0;
 	int height = 0;
 
+	float texMix = 0.0f;
+
 	State()
 	    : model(scm::Mat4::identity()),
 	      view(scm::translate(scm::Mat4::identity(),
@@ -27,13 +29,13 @@ struct State
 
 class Engine
 {
-	Shader _shader;
-	//	Texture _texture;
-	Mesh  _mesh;
-	State _state;
+	Shader  _shader;
+	Texture _texture;
+	Mesh    _mesh;
+	State   _state;
 
 public:
-	Engine(const std::string& objPath);
+	Engine(const std::string& objPath, const std::string& texPath);
 
 	void update(const FrameContext& frame);
 	void render();

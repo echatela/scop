@@ -4,14 +4,15 @@
 
 int main(int argc, char** argv)
 {
-	if (argc > 2)
+	if (argc < 2 || argc > 3)
 	{
-		std::cerr << "Usage: ./scop <file.obj>\n";
+		std::cerr << "Usage: ./scop <object.obj> [texture.ppm]\n";
 		return -1;
 	}
 	try
 	{
-		Application app(argc == 2 ? argv[1] : "assets/42.obj");
+		Application app(argv[1],
+		                argc == 3 ? argv[2] : "assets/awesomeface.ppm");
 		app.run();
 	}
 	catch (const std::exception& e)

@@ -6,8 +6,9 @@
 #include "loader/obj_parser.hpp"
 #include "math/projection.hpp"
 
-Engine::Engine(const std::string& objPath)
+Engine::Engine(const std::string& objPath, const std::string& texPath)
     : _shader("shaders/vert.glsl", "shaders/frag.glsl"),
+      _texture(texPath),
       _mesh(mesh::build(obj::parseFile(objPath)))
 {
 	glEnable(GL_DEPTH_TEST);
@@ -15,7 +16,7 @@ Engine::Engine(const std::string& objPath)
 
 static float rotateRatio(int rotation, double dt)
 {
-	return (float)rotation * (float)dt * scm::radians(50.0f);
+	return (float)rotation * (float)dt * scm::radians(100.0f);
 }
 
 void Engine::update(const FrameContext& frame)
@@ -49,6 +50,19 @@ void Engine::update(const FrameContext& frame)
 		    scm::radians(45.0f), (float)_state.width / (float)_state.height,
 		    0.1f, 100.0f);
 	}
+
+	if (frame.toggleTexture)
+	{
+		_state.texMix += 1.f * frame.dt;
+		if (_state.texMix > 1.0f)
+			_state.texMix = 1.0f;
+	}
+	else
+	{
+		_state.texMix -= 1.f * frame.dt;
+		if (_state.texMix < 0.0f)
+			_state.texMix = 0.0f;
+	}
 }
 
 void Engine::render()
@@ -56,13 +70,14 @@ void Engine::render()
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//	_texture.bind();
-
+	_texture.bind();
 	_shader.use();
 
 	_shader.setMat4("model", _state.model);
 	_shader.setMat4("view", _state.view);
 	_shader.setMat4("projection", _state.projection);
+
+	_shader.setFloat("mixValue", _state.texMix);
 
 	_mesh.draw();
 }

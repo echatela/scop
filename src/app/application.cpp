@@ -1,10 +1,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <string>
 
 #include "app/application.hpp"
 
-Application::Application(const std::string& objPath)
-    : _engine(objPath)
+Application::Application(const std::string& objPath, const std::string& texPath)
+    : _engine(objPath, texPath)
 {
 }
 
@@ -28,8 +29,8 @@ void Application::run()
 
 void Application::processInput(FrameContext& frame)
 {
-//	bool wasTPressed = false;
-	bool wasRPressed = false;
+	static bool  wasTPressed = false;
+	static bool  toggleTexture = false;
 
 	if (_window.isKeyPressed(GLFW_KEY_ESCAPE) == true)
 		_window.setShouldClose();
@@ -49,14 +50,26 @@ void Application::processInput(FrameContext& frame)
 
 	frame.zoom = _window.consumeScroll();
 
-	if (_window.isKeyPressed(GLFW_KEY_R) == true && wasRPressed == false)
+	if (_window.isKeyPressed(GLFW_KEY_R) == true)
 		frame.resetPosition = true;
+
+	if (wasTPressed == true)
+	{
+		if (_window.isKeyPressed(GLFW_KEY_T) == false)
+			wasTPressed = false;
+	}
+	else if (_window.isKeyPressed(GLFW_KEY_T) == true)
+	{
+		toggleTexture = !toggleTexture;
+		wasTPressed = true;
+	}
+	frame.toggleTexture = toggleTexture;
 }
 
 void Application::updateTime(FrameContext& frame)
 {
 	static double last = glfwGetTime();
-	double now;
+	double        now;
 
 	now = glfwGetTime();
 	frame.dt = now - last;

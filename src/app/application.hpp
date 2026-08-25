@@ -16,7 +16,7 @@ class Application
 	Engine      _engine;
 
 public:
-	Application(const std::string& objPath);
+	Application(const std::string& objPath, const std::string& texPath);
 
 	void run();
 
