@@ -9,17 +9,31 @@
 #include "utils/vec4.hpp"
 #include <algorithm>
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 
-static void triangulate(MeshData& md, const std::vector<int>& face,
-                        const ObjData& od)
+static float faceGrey(unsigned index)
 {
-	int    a;
-	int    b, c;
-	Vertex v;
+	static const float greys[] = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f};
+	uint32_t h = index;
 
-	a = face[0] - 1; // faces behing 1 based
-	v.color = a % 2 ? scm::Vec3(0.1f) : scm::Vec3(0.5f);
+//	h ^= h >> 16;
+//	h *= 0x85ebca6b;
+//	h ^= h >> 13;
+//	h *= 0xc2b2ae35;
+//	h ^= h >> 16;
+	return greys[h % (sizeof(greys) / sizeof(greys[0]))];
+}
+
+static void triangulate(MeshData& md, const std::vector<int>& face,
+                        const ObjData& od, unsigned index)
+{
+	const int   a = face[0] - 1; // faces behing one based
+	const float grey = faceGrey(index);
+	int         b, c;
+	Vertex      v;
+
+	v.color = scm::Vec3(grey);
 	v.texCoords = scm::Vec2(0.0f);
 	for (size_t i = 0; i < face.size() - 2; i++)
 	{
@@ -81,7 +95,7 @@ MeshData resolve(const ObjData& od)
 	MeshData md;
 
 	for (size_t i = 0; i < od.faces.size(); i++)
-		triangulate(md, od.faces[i], od);
+		triangulate(md, od.faces[i], od, i);
 	normalizeMesh(md);
 	return md;
 }

@@ -18,10 +18,8 @@ Engine::Engine(const std::string& objPath)
 
 void Engine::update(double dt, int width, int height)
 {
-	(void)dt;
 	_state.rotation += (float)dt * scm::radians(50.0f);
-	_state.model = scm::rotate(scm::Mat4::identity(), _state.rotation,
-	                           scm::Vec3(0.5f, 1.0f, 0.0f));
+	_state.model = scm::rotateY(scm::Mat4::identity(), _state.rotation);
 	if (width != _state.width || height != _state.height)
 	{
 		_state.width = width;
@@ -34,10 +32,10 @@ void Engine::update(double dt, int width, int height)
 
 void Engine::render()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//	_texture.bind();
+	//	_texture.bind();
 
 	_shader.use();
 
