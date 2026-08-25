@@ -12,3 +12,8 @@
 
 # --- External ---
 /external/glfw/build
+
+# --- Debug ---
+vgcore.*
+core
+core.*

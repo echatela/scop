@@ -22,25 +22,30 @@ static float faceGrey(unsigned index)
 	return greys[h % (sizeof(greys) / sizeof(greys[0]))];
 }
 
-static void triangulate(MeshData& md, const std::vector<int>& face,
+static void triangulate(MeshData& md, const std::vector<VertexRef>& face,
                         const ObjData& od, unsigned index)
 {
-	const int   a = face[0] - 1; // faces behing one based
-	const float grey = faceGrey(index);
-	int         b, c;
-	Vertex      v;
+	const VertexRef a = face[0];
+	const float     grey = faceGrey(index);
+	VertexRef       b, c;
+	Vertex          v;
 
 	v.color = scm::Vec3(grey);
-	v.texCoords = scm::Vec2(0.0f);
 	for (size_t i = 0; i < face.size() - 2; i++)
 	{
-		v.position = scm::Vec3(od.positions[a]);
+		v.position = scm::Vec3(od.positions[a.position]);
+		if (a.texCoord != kNoIndex)
+			v.texCoords = scm::Vec2(od.texCoords[a.texCoord]);
 		md.vertices.push_back(v);
-		b = face[1 + i] - 1;
-		v.position = scm::Vec3(od.positions[b]);
+		b = face[1 + i];
+		v.position = scm::Vec3(od.positions[b.position]);
+		if (a.texCoord != kNoIndex)
+			v.texCoords = scm::Vec2(od.texCoords[b.texCoord]);
 		md.vertices.push_back(v);
-		c = face[2 + i] - 1;
-		v.position = scm::Vec3(od.positions[c]);
+		c = face[2 + i];
+		v.position = scm::Vec3(od.positions[c.position]);
+		if (a.texCoord != kNoIndex)
+			v.texCoords = scm::Vec2(od.texCoords[c.texCoord]);
 		md.vertices.push_back(v);
 	}
 }
