@@ -5,8 +5,11 @@ struct GLFWwindow;
 class Window
 {
 	GLFWwindow* _window;
-	float       _width;
-	float       _height;
+
+	int _width = 0;
+	int _height = 0;
+
+	double _scrollOffset = 0.0;
 
 public:
 	Window();
@@ -19,7 +22,12 @@ public:
 	void swapBuffers();
 	void pollEvents();
 
-	bool isKeyPressed(int key);
+	bool   isKeyPressed(int key);
+	double consumeScroll();
 
-	void setFramebufferSizeCallback();
+private:
+	static void scrollCallback(GLFWwindow* window, double xoffset,
+	                           double yoffset);
+	static void framebufferSizeCallback(GLFWwindow* window, int width,
+	                                    int height);
 };

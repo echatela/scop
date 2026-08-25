@@ -5,10 +5,26 @@
 
 #include <stdexcept>
 
-static void framebufferSizeCallback(GLFWwindow* window, int width, int height)
+void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
+	Window* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
 	glfwGetFramebufferSize(window, &width, &height);
+	if (self != nullptr)
+	{
+		self->_width = width;
+		self->_height = height;
+	}
 	glViewport(0, 0, width, height);
+}
+
+void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	(void)xoffset;
+	Window* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+	if (self != nullptr)
+		self->_scrollOffset += yoffset;
 }
 
 Window::Window()
@@ -18,7 +34,10 @@ Window::Window()
 		throw std::runtime_error("Failed to create GLFW window");
 
 	glfwMakeContextCurrent(_window);
-	setFramebufferSizeCallback();
+
+	glfwSetWindowUserPointer(_window, this);
+	glfwSetFramebufferSizeCallback(_window, framebufferSizeCallback);
+	glfwSetScrollCallback(_window, scrollCallback);
 }
 
 Window::~Window()
@@ -40,7 +59,8 @@ void Window::setShouldClose()
 
 void Window::getFramebufferSize(int* width, int* height) const
 {
-	glfwGetFramebufferSize(_window, width, height);
+	*width = _width;
+	*height = _height;
 }
 
 void Window::swapBuffers()
@@ -58,7 +78,9 @@ bool Window::isKeyPressed(int key)
 	return glfwGetKey(_window, key) == GLFW_PRESS;
 }
 
-void Window::setFramebufferSizeCallback()
+double Window::consumeScroll()
 {
-	glfwSetFramebufferSizeCallback(_window, framebufferSizeCallback);
+	double s = _scrollOffset;
+	_scrollOffset = 0.0;
+	return s;
 }

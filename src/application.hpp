@@ -1,6 +1,7 @@
 #pragma once
 
 #include "context/glfw_context.hpp"
+#include "frame_context.hpp"
 #include "window.hpp"
 #include "context/glad_context.hpp"
 #include "engine.hpp"
@@ -19,5 +20,6 @@ public:
 	void run();
 
 private:
-	void processInput();
+	void processInput(FrameContext& frame);
+	void updateTime(FrameContext& frame);
 };
