@@ -1,12 +1,13 @@
 #pragma once
 
-#include "frame_context.hpp"
-#include "shader.hpp"
-#include "model/texture.hpp"
-#include "model/mesh.hpp"
-#include "utils/mat4.hpp"
-#include "utils/transform.hpp"
-#include "utils/vec3.hpp"
+#include "app/frame_context.hpp"
+#include "render/shader.hpp"
+#include "render/mesh.hpp"
+#include "render/texture.hpp"
+
+#include "math/mat4.hpp"
+#include "math/vec3.hpp"
+#include "math/transform.hpp"
 
 struct State
 {

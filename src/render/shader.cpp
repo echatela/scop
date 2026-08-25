@@ -1,5 +1,4 @@
 #include "shader.hpp"
-#include "utils/mat4.hpp"
 
 #include <fstream>
 #include <glad/glad.h>

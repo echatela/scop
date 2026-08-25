@@ -1,7 +1,7 @@
 #pragma once
 
-#include "utils/vec2.hpp"
-#include "utils/vec3.hpp"
+#include "math/vec3.hpp"
+#include "math/vec2.hpp"
 
 struct Vertex
 {

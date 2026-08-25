@@ -1,8 +1,8 @@
 #include "texture.hpp"
-#include "utils/image_loader.hpp"
+#include "loader/image_loader.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <vector>
 
 Texture::Texture(const std::string& path)
 {

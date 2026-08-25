@@ -1,10 +1,11 @@
 #pragma once
 
-#include "context/glfw_context.hpp"
-#include "frame_context.hpp"
-#include "window.hpp"
-#include "context/glad_context.hpp"
-#include "engine.hpp"
+#include "app/frame_context.hpp"
+#include "platform/glfw_context.hpp"
+#include "platform/window.hpp"
+#include "platform/glad_context.hpp"
+#include "app/engine.hpp"
+
 #include <string>
 
 class Application

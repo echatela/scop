@@ -1,9 +1,6 @@
 #pragma once
 
-#include "parsing/obj_data.hpp"
-
-#include <istream>
-#include <string>
+#include "loader/obj_data.hpp"
 
 namespace obj
 {

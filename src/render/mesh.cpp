@@ -1,10 +1,8 @@
-#include "model/mesh.hpp"
-#include "model/mesh_data.hpp"
+#include "render/mesh.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <vector>
 
 Mesh::Mesh(const MeshData& data)
     : _vertices(data.vertices)

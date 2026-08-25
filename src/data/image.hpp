@@ -1,7 +1,5 @@
-// Image loader for scop
 #pragma once
 
-#include <string>
 #include <vector>
 
 struct Image
@@ -11,7 +9,3 @@ struct Image
 	int                        height;
 };
 
-namespace image_loader
-{
-Image loadImage(const std::string& path);
-}

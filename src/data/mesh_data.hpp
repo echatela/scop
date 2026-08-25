@@ -1,6 +1,7 @@
 #pragma once
 
-#include "model/vertex.hpp"
+#include "data/vertex.hpp"
+
 #include <vector>
 
 struct MeshData

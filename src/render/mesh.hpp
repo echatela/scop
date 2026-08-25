@@ -1,7 +1,7 @@
 #pragma once
 
-#include "model/mesh_data.hpp"
-#include "model/vertex.hpp"
+#include "data/mesh_data.hpp"
+#include "data/vertex.hpp"
 
 #include <vector>
 

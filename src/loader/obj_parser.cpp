@@ -1,13 +1,8 @@
-#include "obj_parser.hpp"
-#include "parsing/obj_data.hpp"
-#include "utils/vec3.hpp"
+#include "loader/obj_parser.hpp"
+#include "loader/obj_data.hpp"
+
 #include <fstream>
-#include <iostream>
-#include <istream>
 #include <sstream>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 namespace
 {

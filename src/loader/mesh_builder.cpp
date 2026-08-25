@@ -1,16 +1,11 @@
-#include "parsing/mesh_resolver.hpp"
-#include "model/mesh_data.hpp"
-#include "model/vertex.hpp"
-#include "parsing/obj_data.hpp"
-#include "utils/mat4.hpp"
-#include "utils/transform.hpp"
-#include "utils/vec2.hpp"
-#include "utils/vec3.hpp"
-#include "utils/vec4.hpp"
+#include "data/mesh_data.hpp"
+#include "loader/obj_data.hpp"
+
+#include "math/mat4.hpp"
+#include "math/transform.hpp"
+
 #include <algorithm>
-#include <cstddef>
 #include <cstdint>
-#include <vector>
 
 static float faceGrey(unsigned index)
 {
@@ -90,7 +85,7 @@ static void normalizeMesh(MeshData& md)
 
 namespace mesh
 {
-MeshData resolve(const ObjData& od)
+MeshData build(const ObjData& od)
 {
 	MeshData md;
 

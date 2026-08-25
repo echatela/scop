@@ -1,16 +1,14 @@
-#include "engine.hpp"
-#include "parsing/mesh_resolver.hpp"
-#include "parsing/obj_parser.hpp"
-#include "utils/mat4.hpp"
-#include "utils/perspective.hpp"
-#include "utils/transform.hpp"
-#include "utils/vec3.hpp"
-
 #include <glad/glad.h>
+
+#include "app/engine.hpp"
+
+#include "loader/mesh_builder.hpp"
+#include "loader/obj_parser.hpp"
+#include "math/projection.hpp"
 
 Engine::Engine(const std::string& objPath)
     : _shader("shaders/vert.glsl", "shaders/frag.glsl"),
-      _mesh(mesh::resolve(obj::parseFile(objPath)))
+      _mesh(mesh::build(obj::parseFile(objPath)))
 {
 	glEnable(GL_DEPTH_TEST);
 }

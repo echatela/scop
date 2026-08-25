@@ -1,12 +1,12 @@
 #pragma once
 
-#include "utils/mat4.hpp"
+#include "math/mat4.hpp"
+
 namespace scm
 {
-
 inline Mat4 perspective(float fovY, float aspectRatio, float front, float back)
 {
-	float tangent = tan(fovY/2);
+	float tangent = tan(fovY / 2);
 	float top = front * tangent;
 	float right = top * aspectRatio;
 
@@ -19,5 +19,4 @@ inline Mat4 perspective(float fovY, float aspectRatio, float front, float back)
 	r.data[15] = 0;
 	return r;
 }
-
-}
+} // namespace scm

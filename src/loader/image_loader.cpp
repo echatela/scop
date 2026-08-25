@@ -1,12 +1,6 @@
-#include "image_loader.hpp"
-#include <cctype>
-#include <cstddef>
-#include <cstdio>
+#include "loader/image_loader.hpp"
+
 #include <fstream>
-#include <ios>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 static void skip(std::ifstream& file)
 {

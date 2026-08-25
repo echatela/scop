@@ -1,7 +1,7 @@
-#include "application.hpp"
-#include "frame_context.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include "app/application.hpp"
 
 Application::Application(const std::string& objPath)
     : _engine(objPath)

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "utils/mat4.hpp"
+#include "math/mat4.hpp"
+
 #include <string>
 
 class Shader

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "mat4.hpp"
-#include "utils/vec3.hpp"
 #include <cmath>
 
 namespace scm
