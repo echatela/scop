@@ -1,7 +1,6 @@
 #include "obj_parser.hpp"
 #include "parsing/obj_data.hpp"
 #include "utils/vec3.hpp"
-#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <istream>
@@ -26,8 +25,6 @@ public:
 	ObjData data() const;
 
 	void error(const std::string& message);
-
-	void print() const;
 };
 
 void ObjParser::feed(const std::string& text)
@@ -85,20 +82,6 @@ void ObjParser::error(const std::string& message)
 	ss << "obj: line " << _line << ": " << message;
 	throw std::runtime_error(ss.str());
 }
-
-void ObjParser::print() const
-{
-	for (size_t i = 0; i < _data.positions.size(); i++)
-		std::cout << "v: " << _data.positions[i] << std::endl;
-	for (size_t i = 0; i < _data.faces.size(); i++)
-	{
-		std::cout << "f: ";
-		for (size_t j = 0; j < _data.faces[i].size(); j++)
-			std::cout << _data.faces[i][j] << " ";
-		std::cout << std::endl;
-	}
-}
-
 } // namespace
 
 ObjData obj::parse(std::istream& in)
@@ -108,8 +91,6 @@ ObjData obj::parse(std::istream& in)
 
 	while (std::getline(in, line))
 		parser.feed(line);
-
-	parser.print();
 
 	return parser.data();
 }
