@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 	try
 	{
 		Application app(argv[1],
-		                argc == 3 ? argv[2] : "assets/awesomeface.ppm");
+		                argc == 3 ? argv[2] : "assets/cat.ppm");
 		app.run();
 	}
 	catch (const std::exception& e)

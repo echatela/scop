@@ -13,11 +13,26 @@ struct Vec3
 	float y;
 	float z;
 
-	Vec3() : x(0.0f), y(0.0f), z(0.0f) {}
+	Vec3()
+	    : x(0.0f),
+	      y(0.0f),
+	      z(0.0f)
+	{
+	}
 
-	explicit Vec3(float s) : x(s), y(s), z(s) {}
+	explicit Vec3(float s)
+	    : x(s),
+	      y(s),
+	      z(s)
+	{
+	}
 
-	Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
+	Vec3(float x, float y, float z)
+	    : x(x),
+	      y(y),
+	      z(z)
+	{
+	}
 
 	float& operator[](int i)
 	{
@@ -108,6 +123,12 @@ inline float dot(const Vec3& a, const Vec3& b)
 	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
+inline Vec3 cross(const Vec3& a, const Vec3& b)
+{
+	return Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z,
+	            a.x * b.y - a.y * b.x);
+}
+
 inline float lengthSquared(const Vec3& v)
 {
 	return dot(v, v);
@@ -150,6 +171,6 @@ inline float* valuePtr(Vec3& v)
 
 inline std::ostream& operator<<(std::ostream& os, const Vec3& v)
 {
-	return os << '(' << v.x << ", " << v.y << ", " << v.z <<  ')';
+	return os << '(' << v.x << ", " << v.y << ", " << v.z << ')';
 }
 } // namespace scm

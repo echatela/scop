@@ -4,8 +4,10 @@
 #include "math/mat4.hpp"
 #include "math/transform.hpp"
 #include "math/vec2.hpp"
+#include "math/vec3.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 
@@ -22,30 +24,47 @@ static float faceGrey(unsigned index)
 	return greys[h % (sizeof(greys) / sizeof(greys[0]))];
 }
 
+static scm::Vec3 getNormal(const scm::Vec3& a, const scm::Vec3& b,
+                           const scm::Vec3& c)
+{
+	return scm::normalize(scm::cross(b - a, c - a));
+}
+
 static void triangulate(MeshData& md, const std::vector<VertexRef>& face,
                         const ObjData& od, unsigned index)
 {
 	const VertexRef a = face[0];
-	const float     grey = faceGrey(index);
 	VertexRef       b, c;
 	Vertex          v;
 
-	v.color = scm::Vec3(grey);
+	if (od.normals.empty())
+		v.normal = getNormal(od.positions[face[0].position],
+		                     od.positions[face[1].position],
+		                     od.positions[face[2].position]);
+	v.color = scm::Vec3(faceGrey(index));
 	for (size_t i = 0; i < face.size() - 2; i++)
 	{
 		v.position = scm::Vec3(od.positions[a.position]);
 		if (a.texCoord != kNoIndex)
-			v.texCoords = scm::Vec2(od.texCoords[a.texCoord]);
+			v.texCoord = scm::Vec2(od.texCoords[a.texCoord]);
+		if (a.normal != kNoIndex)
+			v.normal = scm::Vec3(od.normals[a.normal]);
 		md.vertices.push_back(v);
+
 		b = face[1 + i];
 		v.position = scm::Vec3(od.positions[b.position]);
-		if (a.texCoord != kNoIndex)
-			v.texCoords = scm::Vec2(od.texCoords[b.texCoord]);
+		if (b.texCoord != kNoIndex)
+			v.texCoord = scm::Vec2(od.texCoords[b.texCoord]);
+		if (b.normal != kNoIndex)
+			v.normal = scm::Vec3(od.normals[b.normal]);
 		md.vertices.push_back(v);
+
 		c = face[2 + i];
 		v.position = scm::Vec3(od.positions[c.position]);
-		if (a.texCoord != kNoIndex)
-			v.texCoords = scm::Vec2(od.texCoords[c.texCoord]);
+		if (c.texCoord != kNoIndex)
+			v.texCoord = scm::Vec2(od.texCoords[c.texCoord]);
+		if (c.normal != kNoIndex)
+			v.normal = scm::Vec3(od.normals[c.normal]);
 		md.vertices.push_back(v);
 	}
 }
@@ -93,8 +112,18 @@ static void normalizeMesh(MeshData& md)
 static void basicTexCoords(MeshData& md)
 {
 	for (size_t i = 0; i < md.vertices.size(); i++)
-		md.vertices[i].texCoords = scm::Vec2(-md.vertices[i].position.z + 0.5f,
-		                                     md.vertices[i].position.y + 0.5f);
+	{
+		Vertex& v = md.vertices[i];
+		if (std::fabs(v.normal.x) >= std::fabs(v.normal.y) &&
+		    std::fabs(v.normal.x) >= std::fabs(v.normal.z))
+			v.texCoord = scm::Vec2(-v.position.z + 0.5f, v.position.y + 0.5f);
+		else if (std::fabs(v.normal.y) >= std::fabs(v.normal.x) &&
+		         std::fabs(v.normal.y) >= std::fabs(v.normal.z))
+			v.texCoord = scm::Vec2(v.position.x + 0.5f, -v.position.z + 0.5f);
+		else if (std::fabs(v.normal.z) >= std::fabs(v.normal.x) &&
+		         std::fabs(v.normal.z) >= std::fabs(v.normal.y))
+			v.texCoord = scm::Vec2(v.position.x + 0.5f, v.position.y + 0.5f);
+	}
 }
 
 namespace mesh

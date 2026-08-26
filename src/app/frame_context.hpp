@@ -8,7 +8,7 @@ struct FrameContext
 	int height = 0;
 
 	bool rotate = 0;
-	int  rotateY = 0;
+	int  rotationY = 0;
 
 	int moveX = 0;
 	int moveY = 0;

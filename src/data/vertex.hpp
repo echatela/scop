@@ -6,6 +6,7 @@
 struct Vertex
 {
 	scm::Vec3 position;
+	scm::Vec2 texCoord;
+	scm::Vec3 normal;
 	scm::Vec3 color;
-	scm::Vec2 texCoords;
 };

@@ -21,9 +21,9 @@ void Engine::update(const FrameContext& frame)
 	if (frame.rotate)
 		_state.model =
 		    scm::rotateY(_state.model, (float)frame.dt * scm::radians(100.0f));
-	if (frame.rotateY)
+	if (frame.rotationY)
 		_state.model =
-		    scm::rotateY(_state.model, (float)frame.dt * frame.rotateY *
+		    scm::rotateY(_state.model, (float)frame.dt * frame.rotationY *
 		                                   scm::radians(100.0f));
 
 	if (frame.moveX)

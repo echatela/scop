@@ -15,8 +15,8 @@ void Application::run()
 	{
 		FrameContext frame;
 
-		processInput(frame);
 		_window.getFramebufferSize(&frame.width, &frame.height);
+		processInput(frame);
 		updateTime(frame);
 
 		_engine.update(frame);
@@ -38,9 +38,9 @@ void Application::processInput(FrameContext& frame)
 		_window.setShouldClose();
 
 	if (_window.isKeyPressed(GLFW_KEY_E) == true)
-		frame.rotateY++;
+		frame.rotationY++;
 	if (_window.isKeyPressed(GLFW_KEY_Q) == true)
-		frame.rotateY--;
+		frame.rotationY--;
 
 	if (_window.isKeyPressed(GLFW_KEY_W) == true)
 		frame.moveZ--;
