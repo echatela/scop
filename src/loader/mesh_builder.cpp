@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <stdexcept>
 
 static float faceGrey(unsigned index)
 {
@@ -131,6 +132,10 @@ namespace mesh
 MeshData build(const ObjData& od)
 {
 	MeshData md;
+
+	if (od.faces.empty())
+		throw std::runtime_error(
+		    "meshBuilder: mesh should have at least one face");
 
 	for (size_t i = 0; i < od.faces.size(); i++)
 		triangulate(md, od.faces[i], od, i);
