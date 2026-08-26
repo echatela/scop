@@ -5,6 +5,8 @@
 #include "loader/mesh_builder.hpp"
 #include "loader/obj_parser.hpp"
 #include "math/projection.hpp"
+#include "math/transform.hpp"
+#include "math/vec3.hpp"
 
 Engine::Engine(const std::string& objPath, const std::string& texPath)
     : _shader("shaders/vert.glsl", "shaders/frag.glsl"),
@@ -14,29 +16,25 @@ Engine::Engine(const std::string& objPath, const std::string& texPath)
 	glEnable(GL_DEPTH_TEST);
 }
 
-static float rotateRatio(int rotation, double dt)
-{
-	return (float)rotation * (float)dt * scm::radians(100.0f);
-}
-
 void Engine::update(const FrameContext& frame)
 {
-	if (frame.resetPosition)
-	{
-		_state.model = scm::Mat4::identity();
-		_state.view =
-		    scm::translate(scm::Mat4::identity(), scm::Vec3(0.0f, 0.0f, -2.0f));
-	}
+	if (frame.rotate)
+		_state.model =
+		    scm::rotateY(_state.model, (float)frame.dt * scm::radians(100.0f));
+	if (frame.rotateY)
+		_state.model =
+		    scm::rotateY(_state.model, (float)frame.dt * frame.rotateY *
+		                                   scm::radians(100.0f));
 
-	if (frame.rotationX)
-		_state.model =
-		    scm::rotateX(_state.model, rotateRatio(frame.rotationX, frame.dt));
-	if (frame.rotationY)
-		_state.model =
-		    scm::rotateY(_state.model, rotateRatio(frame.rotationY, frame.dt));
-	if (frame.rotationZ)
-		_state.model =
-		    scm::rotateZ(_state.model, rotateRatio(frame.rotationZ, frame.dt));
+	if (frame.moveX)
+		_state.view = scm::translate(
+		    _state.view, scm::Vec3((float)frame.dt * frame.moveX, 0.0f, 0.0f));
+	if (frame.moveY)
+		_state.view = scm::translate(
+		    _state.view, scm::Vec3(0.0f, (float)frame.dt * frame.moveY, 0.0f));
+	if (frame.moveZ)
+		_state.view = scm::translate(
+		    _state.view, scm::Vec3(0.0f, 0.0f, (float)frame.dt * frame.moveZ));
 
 	if (frame.zoom)
 		_state.view = scm::translate(
@@ -67,7 +65,7 @@ void Engine::update(const FrameContext& frame)
 
 void Engine::render()
 {
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	_texture.bind();

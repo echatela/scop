@@ -29,29 +29,48 @@ void Application::run()
 
 void Application::processInput(FrameContext& frame)
 {
-	static bool  wasTPressed = false;
-	static bool  toggleTexture = false;
+	static bool wasTPressed = false;
+	static bool toggleTexture = false;
+	static bool wasRPressed = false;
+	static bool toggleRotation = false;
 
 	if (_window.isKeyPressed(GLFW_KEY_ESCAPE) == true)
 		_window.setShouldClose();
 
-	if (_window.isKeyPressed(GLFW_KEY_W) == true)
-		frame.rotationX--;
-	if (_window.isKeyPressed(GLFW_KEY_S) == true)
-		frame.rotationX++;
-	if (_window.isKeyPressed(GLFW_KEY_A) == true)
-		frame.rotationY--;
-	if (_window.isKeyPressed(GLFW_KEY_D) == true)
-		frame.rotationY++;
-	if (_window.isKeyPressed(GLFW_KEY_Q) == true)
-		frame.rotationZ--;
 	if (_window.isKeyPressed(GLFW_KEY_E) == true)
-		frame.rotationZ++;
+		frame.rotateY++;
+	if (_window.isKeyPressed(GLFW_KEY_Q) == true)
+		frame.rotateY--;
+
+	if (_window.isKeyPressed(GLFW_KEY_W) == true)
+		frame.moveZ--;
+	if (_window.isKeyPressed(GLFW_KEY_S) == true)
+		frame.moveZ++;
+	if (_window.isKeyPressed(GLFW_KEY_A) == true)
+		frame.moveX--;
+	if (_window.isKeyPressed(GLFW_KEY_D) == true)
+		frame.moveX++;
+	if (_window.isKeyPressed(GLFW_KEY_LEFT_SHIFT) == true)
+		frame.moveY--;
+	if (_window.isKeyPressed(GLFW_KEY_SPACE) == true)
+		frame.moveY++;
 
 	frame.zoom = _window.consumeScroll();
 
 	if (_window.isKeyPressed(GLFW_KEY_R) == true)
-		frame.resetPosition = true;
+		frame.rotate = true;
+
+	if (wasRPressed == true)
+	{
+		if (_window.isKeyPressed(GLFW_KEY_R) == false)
+			wasRPressed = false;
+	}
+	else if (_window.isKeyPressed(GLFW_KEY_R) == true)
+	{
+		toggleRotation = !toggleRotation;
+		wasRPressed = true;
+	}
+	frame.rotate = toggleRotation;
 
 	if (wasTPressed == true)
 	{

@@ -7,14 +7,14 @@ struct FrameContext
 	int width = 0;
 	int height = 0;
 
-	int rotationX = 0;
-	int rotationY = 0;
-	int rotationZ = 0;
+	bool rotate = 0;
+	int  rotateY = 0;
+
+	int moveX = 0;
+	int moveY = 0;
+	int moveZ = 0;
 
 	double zoom = 0.0;
 
-	bool resetPosition = false;
-
-	float texMix = 0.0f;
 	bool toggleTexture = false;
 };
