@@ -18,7 +18,11 @@ CPPFLAGS   := -I$(SRC_DIR) -I$(GLAD_DIR)/include -I$(GLFW_DIR)/include
 LDFLAGS    :=
 LDLIBS     := $(GLFW_LIB) -ldl -lpthread -lm
 
-SRCS       := $(shell find $(SRC_DIR) -name '*.cpp')
+SRCS       := $(addprefix src/,main.cpp \
+		$(addprefix app/,application.cpp engine.cpp) \
+		$(addprefix platform/,glfw_context.cpp window.cpp glad_context.cpp) \
+		$(addprefix render/,mesh.cpp shader.cpp texture.cpp) \
+		$(addprefix loader/,image_loader.cpp mesh_builder.cpp obj_parser.cpp))
 OBJS       := $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 GLAD_OBJ   := $(OBJ_DIR)/glad.o
 DEPS       := $(OBJS:.o=.d)
