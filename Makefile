@@ -9,12 +9,11 @@ OBJ_DIR    := obj
 EXT_DIR    := external
 
 GLAD_DIR   := $(EXT_DIR)/glad
-GLFW_BUILD := $(GLFW_DIR)/build
 
 CXXFLAGS   := -Wall -Wextra -Werror -std=$(CXXSTD) -MMD -MP
-CPPFLAGS   := -I$(SRC_DIR) -I$(GLAD_DIR)/include -I$(GLFW_DIR)/include
+CPPFLAGS   := -I$(SRC_DIR) -I$(GLAD_DIR)/include
 LDFLAGS    :=
-LDLIBS     := $(GLFW_LIB) -ldl -lpthread -lm -lglfw -lGL -lX11 -lXi 
+LDLIBS     := -ldl -lpthread -lm -lglfw -lGL -lX11 -lXi
 
 SRCS       := $(addprefix src/,main.cpp \
 		$(addprefix app/,application.cpp engine.cpp) \
@@ -31,7 +30,7 @@ RM         := rm -f
 
 all: $(NAME)
 
-$(NAME): $(GLFW_LIB) $(OBJS) $(GLAD_OBJ)
+$(NAME): $(OBJS) $(GLAD_OBJ)
 	$(CXX) $(LDFLAGS) $(OBJS) $(GLAD_OBJ) $(LDLIBS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -55,10 +54,9 @@ re: fclean
 cdb:
 	@command -v bear >/dev/null 2>&1 || \
 		{ echo "cdb: bear not found (install bear)"; exit 1; }
-	$(MAKE) $(GLFW_LIB)
 	$(MAKE) fclean
 	bear -- $(MAKE) all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean fclean-glfw re cdb
+.PHONY: all clean fclean re cdb
