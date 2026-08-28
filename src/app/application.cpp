@@ -15,6 +15,8 @@ void Application::run()
 	{
 		FrameContext frame;
 
+		_window.pollEvents();
+
 		_window.getFramebufferSize(&frame.width, &frame.height);
 		processInput(frame);
 		updateTime(frame);
@@ -23,7 +25,6 @@ void Application::run()
 		_engine.render();
 
 		_window.swapBuffers();
-		_window.pollEvents();
 	}
 }
 

@@ -6,8 +6,8 @@ class Window
 {
 	GLFWwindow* _window;
 
-	int _width = 0;
-	int _height = 0;
+	int _width = 800;
+	int _height = 600;
 
 	double _scrollOffset = 0.0;
 

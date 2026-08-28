@@ -30,7 +30,7 @@ static unsigned int compileShader(const char* shaderCode, int type)
 	if (!success)
 	{
 		glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-		throw std::runtime_error("Shader: Compilation failed" +
+		throw std::runtime_error("Shader: Compilation failed\n" +
 		                         std::string(infoLog));
 	}
 	return shader;
@@ -56,7 +56,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	if (!success)
 	{
 		glGetProgramInfoLog(_id, 512, nullptr, infoLog);
-		throw std::runtime_error("Shader: Linking failed" +
+		throw std::runtime_error("Shader: Linking failed\n" +
 		                         std::string(infoLog));
 	}
 
